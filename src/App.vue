@@ -1,9 +1,18 @@
 <script setup>
-const currentDate = new Date();
+import Button from './components/Button.vue';
 </script>
 
 <template>
-  {{ currentDate }}
+  <header></header>
+  <main class="main">
+    <Button>Начать игру</Button>
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+</style>
