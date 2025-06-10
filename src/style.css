@@ -1,4 +1,12 @@
 :root {
+  --font-family: 'Roboto', 'Arial', sans-serif;
+
+  --color-primary: #ffffff;
+  --color-primary-inverted: #000000;
+  --color-font-basic: #222222;
+  --color-bg-basic: #f0f4f8;
+  --color-border-card: #cce8ff;
+  --color-bg-button: #008bfe;
 }
 
 *,
@@ -7,11 +15,21 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-
+html {
+  scroll-behavior: smooth;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: 0;
+  background-color: var(--color-bg-basic);
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
 }
