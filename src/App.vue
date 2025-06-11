@@ -1,18 +1,90 @@
 <script setup>
 import Button from './components/Button.vue';
+import Score from './components/Score.vue';
+import Card from './components/Card.vue';
+
+const START_SCORE = 100;
 </script>
 
 <template>
-  <header></header>
+  <header class="header">
+    <div class="container">
+      <div class="header__container">
+        <h1 class="header__title">ЗАПОМНИ СЛОВО</h1>
+        <Score :score="START_SCORE" />
+      </div>
+    </div>
+  </header>
+
   <main class="main">
-    <Button>Начать игру</Button>
+    <div class="container">
+      <div class="main__container">
+        <Button class="main__button">Начать игру</Button>
+
+        <ul class="cards">
+          <li class="cards__item">
+            <Card />
+          </li>
+        </ul>
+      </div>
+    </div>
   </main>
 </template>
 
 <style scoped>
 .main {
   display: grid;
-  place-content: center;
-  min-height: 100vh;
+  height: 100%;
 }
+
+.main__container {
+  display: grid;
+  height: 100%;
+}
+
+.main__button {
+  place-self: center;
+}
+
+.header {
+  padding: 37px 0;
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  color: var(--color-font-basic);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 66px 106px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: list-item;
+}
+
+.cards__item {
+  counter-increment: list-item;
+  perspective: 1000px;
+}
+
+/* temp */
+.cards__item:hover .card {
+  transform: rotateY(180deg);
+}
+
+/* .cards__item.isFlipped .card {
+  transform: rotateY(180deg);
+} */
 </style>
