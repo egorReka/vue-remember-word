@@ -2,7 +2,7 @@
 import True from '../icons/True.vue';
 import False from '../icons/False.vue';
 
-const emmit = defineEmits(['isRemembered', 'flip']);
+const emit = defineEmits(['isRemembered', 'flip']);
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const emmit = defineEmits(['isRemembered', 'flip']);
       <div class="card__container">
         <p class="card__word">unadmitted</p>
         <div class="card__buttons">
-          <button class="card__button" @click="emmit('flip')">
+          <button class="card__button" @click="emit('flip')">
             перевернуть
           </button>
         </div>
@@ -25,15 +25,15 @@ const emmit = defineEmits(['isRemembered', 'flip']);
         <div class="card__buttons">
           <button
             class="card__button"
-            aria-label="запомнил"
-            @click="emmit('isRemembered', true)"
+            aria-label="не запомнил"
+            @click="emit('isRemembered', true)"
           >
             <False class="card__icon" />
           </button>
           <button
             class="card__button"
-            aria-label="не запомнил"
-            @click="emmit('isRemembered', false)"
+            aria-label="запомнил"
+            @click="emit('isRemembered', false)"
           >
             <True class="card__icon" />
           </button>
