@@ -5,7 +5,7 @@
   --color-primary-inverted: #000000;
   --color-font-basic: #222222;
   --color-bg-basic: #f0f4f8;
-  --color-border-card: #cce8ff;
+  --color-accent: #cce8ff;
   --color-bg-button: #008bfe;
 }
 
@@ -24,12 +24,23 @@ html {
 }
 
 body {
-  display: grid;
-  grid-template-rows: auto 1fr;
   margin: 0;
   background-color: var(--color-bg-basic);
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
+}
+
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 60px;
 }
