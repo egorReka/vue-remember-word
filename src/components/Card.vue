@@ -26,14 +26,14 @@ const emit = defineEmits(['isRemembered', 'flip']);
           <button
             class="card__button"
             aria-label="не запомнил"
-            @click="emit('isRemembered', true)"
+            @click="emit('isRemembered', false)"
           >
             <False class="card__icon" />
           </button>
           <button
             class="card__button"
             aria-label="запомнил"
-            @click="emit('isRemembered', false)"
+            @click="emit('isRemembered', true)"
           >
             <True class="card__icon" />
           </button>
@@ -57,9 +57,9 @@ const emit = defineEmits(['isRemembered', 'flip']);
   transition: transform 0.5s;
 }
 
-/* .card:hover {
-  transform: rotateY(180deg);
-} */
+.card[style*='transform: rotateY(180deg)'] .card__back {
+  z-index: 2;
+}
 
 .card__container {
   position: relative;

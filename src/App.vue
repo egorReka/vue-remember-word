@@ -4,6 +4,14 @@ import Score from './components/Score.vue';
 import Card from './components/Card.vue';
 
 const START_SCORE = 100;
+
+const handleFlip = () => {
+  console.log('Card flipped');
+};
+
+const handleRemembered = (isRemembered) => {
+  console.log(`Card remembered: ${isRemembered}`);
+};
 </script>
 
 <template>
@@ -23,7 +31,7 @@ const START_SCORE = 100;
 
         <ul class="cards">
           <li class="cards__item">
-            <Card />
+            <Card @flip="handleFlip" @isRemembered="handleRemembered" />
           </li>
         </ul>
       </div>
@@ -82,6 +90,10 @@ const START_SCORE = 100;
 /* temp */
 .cards__item:hover .card {
   transform: rotateY(180deg);
+}
+
+.cards__item:hover .card__front {
+  pointer-events: none;
 }
 
 /* .cards__item.isFlipped .card {
