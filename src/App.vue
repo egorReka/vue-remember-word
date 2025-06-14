@@ -1,16 +1,26 @@
 <script setup>
+import { ref } from 'vue';
+
 import Button from './components/Button.vue';
 import Score from './components/Score.vue';
 import Card from './components/Card.vue';
 
-const START_SCORE = 100;
+let score = ref(100);
+const cardData = ref({
+  word: 'unadmitted',
+  translation: 'непризнанный',
+  state: 'closed',
+  status: 'pending',
+});
 
 const handleFlip = () => {
+  cardData.value.state = 'open';
+  // убирать обработчик клика после переворота карты
   console.log('Card flipped');
 };
 
 const handleRemembered = (isRemembered) => {
-  console.log(`Card remembered: ${isRemembered}`);
+  cardData.value.status = isRemembered ? 'success' : 'fail';
 };
 </script>
 
@@ -19,7 +29,7 @@ const handleRemembered = (isRemembered) => {
     <div class="container">
       <div class="header__container">
         <h1 class="header__title">ЗАПОМНИ СЛОВО</h1>
-        <Score :score="START_SCORE" />
+        <Score :score="score" />
       </div>
     </div>
   </header>
@@ -31,7 +41,11 @@ const handleRemembered = (isRemembered) => {
 
         <ul class="cards">
           <li class="cards__item">
-            <Card @flip="handleFlip" @isRemembered="handleRemembered" />
+            <Card
+              @flip="handleFlip"
+              @isRemembered="handleRemembered"
+              v-bind="cardData"
+            />
           </li>
         </ul>
       </div>
@@ -86,17 +100,4 @@ const handleRemembered = (isRemembered) => {
   counter-increment: list-item;
   perspective: 1000px;
 }
-
-/* temp */
-.cards__item:hover .card {
-  transform: rotateY(180deg);
-}
-
-.cards__item:hover .card__front {
-  pointer-events: none;
-}
-
-/* .cards__item.isFlipped .card {
-  transform: rotateY(180deg);
-} */
 </style>

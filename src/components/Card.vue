@@ -1,15 +1,25 @@
 <script setup>
 import True from '../icons/True.vue';
 import False from '../icons/False.vue';
+const { word, translation, state, status } = defineProps({
+  word: String,
+  translation: String,
+  state: String,
+  status: String,
+});
 
 const emit = defineEmits(['isRemembered', 'flip']);
 </script>
 
 <template>
-  <div class="card">
+  <div
+    class="card"
+    :class="{ 'card--flipped': state === 'open' }"
+    @click="emit('flip')"
+  >
     <div class="card__front">
       <div class="card__container">
-        <p class="card__word">unadmitted</p>
+        <p class="card__word">{{ word }}</p>
         <div class="card__buttons">
           <button class="card__button" @click="emit('flip')">
             перевернуть
@@ -20,7 +30,13 @@ const emit = defineEmits(['isRemembered', 'flip']);
 
     <div class="card__back">
       <div class="card__container">
-        <p class="card__translation">непризнанный</p>
+        <span class="card__status">
+          {{ status }}
+          <!-- <True class="card__status-icon" />
+          <False class="card__status-icon" /> -->
+        </span>
+
+        <p class="card__translation">{{ translation }}</p>
 
         <div class="card__buttons">
           <button
@@ -57,8 +73,16 @@ const emit = defineEmits(['isRemembered', 'flip']);
   transition: transform 0.5s;
 }
 
-.card[style*='transform: rotateY(180deg)'] .card__back {
-  z-index: 2;
+.card.card--flipped {
+  transform: rotateY(180deg);
+}
+
+.card.card--flipped .card__front .card__button {
+  pointer-events: none;
+}
+
+.card.card--flipped .card__back {
+  z-index: 3;
 }
 
 .card__container {
@@ -70,6 +94,25 @@ const emit = defineEmits(['isRemembered', 'flip']);
   padding: 16px;
   border: 1px solid var(--color-accent);
   border-radius: 12px;
+}
+
+.card__status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  place-content: center;
+  margin: 0 auto;
+  place-items: center;
+  width: max-content;
+}
+
+.card__status-icon {
+  width: 44px;
+  height: 44px;
+  background-color: var(--color-primary);
 }
 
 .card__container::before {
