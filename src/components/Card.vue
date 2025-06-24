@@ -8,20 +8,19 @@ const { word, translation, state, status } = defineProps({
   status: String,
 });
 
-const emit = defineEmits(['isRemembered', 'flip']);
+const emit = defineEmits(['update:status', 'update:state']);
 </script>
 
 <template>
-  <div
-    class="card"
-    :class="{ 'card--flipped': state === 'open' }"
-    @click="emit('flip')"
-  >
+  <div class="card" :class="{ 'card--flipped': state === 'open' }">
     <div class="card__front">
       <div class="card__container">
         <p class="card__word">{{ word }}</p>
         <div class="card__buttons">
-          <button class="card__button" @click="emit('flip')">
+          <button
+            class="card__button"
+            @click="emit('update:state', word, 'open')"
+          >
             перевернуть
           </button>
         </div>
@@ -42,14 +41,14 @@ const emit = defineEmits(['isRemembered', 'flip']);
             <button
               class="card__button"
               aria-label="не запомнил"
-              @click="emit('isRemembered', false)"
+              @click="emit('update:status', word, 'fail')"
             >
               <False class="card__icon" />
             </button>
             <button
               class="card__button"
               aria-label="запомнил"
-              @click="emit('isRemembered', true)"
+              @click="emit('update:status', word, 'success')"
             >
               <True class="card__icon" />
             </button>

@@ -6,21 +6,51 @@ import Score from './components/Score.vue';
 import Card from './components/Card.vue';
 
 let score = ref(100);
-const cardData = ref({
-  word: 'unadmitted',
-  translation: 'непризнанный',
-  state: 'closed',
-  status: 'pending',
-});
+const cardData = ref([
+  {
+    word: 'unadmitted',
+    translation: 'непризнанный',
+    state: 'closed',
+    status: 'pending',
+  },
+  {
+    word: 'armour-piercer',
+    translation: 'бронебойщик',
+    state: 'open',
+    status: 'pending',
+  },
+  {
+    word: 'stamen',
+    translation: 'тычинка',
+    state: 'open',
+    status: 'success',
+  },
+  {
+    word: 'vino',
+    translation: 'вино',
+    state: 'open',
+    status: 'fail',
+  },
+]);
 
-const handleFlip = () => {
-  cardData.value.state = 'open';
-  // убирать обработчик клика после переворота карты
-  console.log('Card flipped');
+const updateCardState = (key, newState) => {
+  const card = cardData.value.find((card) => card.word === key);
+
+  if (!card) {
+    return;
+  }
+
+  card.state = newState;
 };
 
-const handleRemembered = (isRemembered) => {
-  cardData.value.status = isRemembered ? 'success' : 'fail';
+const updateCardStatus = (key, newStatus) => {
+  const card = cardData.value.find((card) => card.word === key);
+
+  if (!card) {
+    return;
+  }
+
+  card.status = newStatus;
 };
 </script>
 
@@ -40,11 +70,11 @@ const handleRemembered = (isRemembered) => {
         <Button class="main__button">Начать игру</Button>
 
         <ul class="cards">
-          <li class="cards__item">
+          <li v-for="card in cardData" :key="card.word" class="cards__item">
             <Card
-              @flip="handleFlip"
-              @isRemembered="handleRemembered"
-              v-bind="cardData"
+              v-bind="card"
+              @update:status="updateCardStatus"
+              @update:state="updateCardState"
             />
           </li>
         </ul>
