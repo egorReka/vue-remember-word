@@ -8,20 +8,19 @@ const { word, translation, state, status } = defineProps({
   status: String,
 });
 
-const emit = defineEmits(['isRemembered', 'flip']);
+const emit = defineEmits(['update:status', 'update:state']);
 </script>
 
 <template>
-  <div
-    class="card"
-    :class="{ 'card--flipped': state === 'open' }"
-    @click="emit('flip')"
-  >
+  <div class="card" :class="{ 'card--flipped': state === 'open' }">
     <div class="card__front">
       <div class="card__container">
         <p class="card__word">{{ word }}</p>
         <div class="card__buttons">
-          <button class="card__button" @click="emit('flip')">
+          <button
+            class="card__button"
+            @click="emit('update:state', word, 'open')"
+          >
             перевернуть
           </button>
         </div>
@@ -31,28 +30,30 @@ const emit = defineEmits(['isRemembered', 'flip']);
     <div class="card__back">
       <div class="card__container">
         <span class="card__status">
-          {{ status }}
-          <!-- <True class="card__status-icon" />
-          <False class="card__status-icon" /> -->
+          <True v-if="status === 'success'" class="card__status-icon" />
+          <False v-else-if="status === 'fail'" class="card__status-icon" />
         </span>
 
         <p class="card__translation">{{ translation }}</p>
 
         <div class="card__buttons">
-          <button
-            class="card__button"
-            aria-label="не запомнил"
-            @click="emit('isRemembered', false)"
-          >
-            <False class="card__icon" />
-          </button>
-          <button
-            class="card__button"
-            aria-label="запомнил"
-            @click="emit('isRemembered', true)"
-          >
-            <True class="card__icon" />
-          </button>
+          <template v-if="status === 'pending'">
+            <button
+              class="card__button"
+              aria-label="не запомнил"
+              @click="emit('update:status', word, 'fail')"
+            >
+              <False class="card__icon" />
+            </button>
+            <button
+              class="card__button"
+              aria-label="запомнил"
+              @click="emit('update:status', word, 'success')"
+            >
+              <True class="card__icon" />
+            </button>
+          </template>
+          <span v-else class="card__status-completed"> ЗАВЕРШЕНО </span>
         </div>
       </div>
     </div>
@@ -187,5 +188,14 @@ const emit = defineEmits(['isRemembered', 'flip']);
 .card__icon {
   width: 24px;
   height: 24px;
+}
+
+.card__status-completed {
+  padding: 0 4px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0.12em;
+  color: var(--color-font-basic);
 }
 </style>
