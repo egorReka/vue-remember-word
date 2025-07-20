@@ -31,9 +31,17 @@ const updateCardStatus = (key, newStatus) => {
 };
 
 async function getRandomWords() {
-  const res = await fetch(API_ENDPOINT);
+  try {
+    const res = await fetch(API_ENDPOINT);
 
-  cardData.value = await res.json();
+    cardData.value = (await res.json()).map((card) => ({
+      ...card,
+      state: 'closed',
+      status: 'pending',
+    }));
+  } catch (err) {
+    console.error('Не удалось получить слова:', err);
+  }
 }
 
 onMounted(() => getRandomWords());

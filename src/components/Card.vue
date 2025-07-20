@@ -1,12 +1,7 @@
 <script setup>
 import True from '../icons/True.vue';
 import False from '../icons/False.vue';
-const {
-  word,
-  translation,
-  state = 'closed',
-  status = 'pending',
-} = defineProps({
+const { word, translation, state, status } = defineProps({
   word: String,
   translation: String,
   state: String,
