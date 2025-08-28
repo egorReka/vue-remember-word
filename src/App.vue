@@ -1,37 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import Button from './components/Button.vue';
 import Score from './components/Score.vue';
 import Card from './components/Card.vue';
 
+const API_ENDPOINT = 'http://localhost:8080/api/random-words';
+
 let score = ref(100);
-const cardData = ref([
-  {
-    word: 'unadmitted',
-    translation: 'непризнанный',
-    state: 'closed',
-    status: 'pending',
-  },
-  {
-    word: 'armour-piercer',
-    translation: 'бронебойщик',
-    state: 'open',
-    status: 'pending',
-  },
-  {
-    word: 'stamen',
-    translation: 'тычинка',
-    state: 'open',
-    status: 'success',
-  },
-  {
-    word: 'vino',
-    translation: 'вино',
-    state: 'open',
-    status: 'fail',
-  },
-]);
+const cardData = ref([]);
 
 const updateCardState = (key, newState) => {
   const card = cardData.value.find((card) => card.word === key);
@@ -52,6 +29,22 @@ const updateCardStatus = (key, newStatus) => {
 
   card.status = newStatus;
 };
+
+async function getRandomWords() {
+  try {
+    const res = await fetch(API_ENDPOINT);
+
+    cardData.value = (await res.json()).map((card) => ({
+      ...card,
+      state: 'closed',
+      status: 'pending',
+    }));
+  } catch (err) {
+    console.error('Не удалось получить слова:', err);
+  }
+}
+
+onMounted(() => getRandomWords());
 </script>
 
 <template>
