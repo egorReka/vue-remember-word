@@ -12,17 +12,12 @@ const emit = defineEmits(['update:status', 'update:state']);
 </script>
 
 <template>
-  <div class="card" :class="{ 'card--flipped': state === 'open' }">
+  <div class="card" :class="{ 'card--flipped': state === 'open' }" @click="emit('update:state', word, 'open')">
     <div class="card__front">
       <div class="card__container">
         <p class="card__word">{{ word }}</p>
         <div class="card__buttons">
-          <button
-            class="card__button"
-            @click="emit('update:state', word, 'open')"
-          >
-            перевернуть
-          </button>
+          <button class="card__button">перевернуть</button>
         </div>
       </div>
     </div>
@@ -71,7 +66,13 @@ const emit = defineEmits(['update:status', 'update:state']);
   border-radius: 16px;
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
   transform-style: preserve-3d;
-  transition: transform 0.5s;
+  transition: transform 0.5s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card:hover,
+.card:focus-within {
+  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.05);
 }
 
 .card.card--flipped {

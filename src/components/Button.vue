@@ -8,6 +8,7 @@
 
 <style scoped>
 .button {
+  display: block;
   min-height: 68px;
   min-width: 335px;
   padding: 16px 32px;
