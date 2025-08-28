@@ -4,11 +4,29 @@ import { onMounted, ref } from 'vue';
 import Button from './components/Button.vue';
 import Score from './components/Score.vue';
 import Card from './components/Card.vue';
-
-const API_ENDPOINT = 'http://localhost:8080/api/random-words';
+import { API_ENDPOINT } from './constants';
 
 let score = ref(100);
 const cardData = ref([]);
+const isPlayGame = ref(false)
+
+const updateScore = (value) => {
+  if (value === 'success') {
+    score.value += 10;
+    
+    return;
+  }
+
+  if ( value === 'fail') {
+    score.value -= 4
+
+    if (score.value <= 0) {
+      score.value = 0;
+    }
+  
+    return;
+  }
+}
 
 const updateCardState = (key, newState) => {
   const card = cardData.value.find((card) => card.word === key);
@@ -28,6 +46,7 @@ const updateCardStatus = (key, newStatus) => {
   }
 
   card.status = newStatus;
+  updateScore(newStatus)  
 };
 
 async function getRandomWords() {
@@ -60,17 +79,22 @@ onMounted(() => getRandomWords());
   <main class="main">
     <div class="container">
       <div class="main__container">
-        <Button class="main__button">Начать игру</Button>
+        
+        <Button v-if="!isPlayGame" class="main__button" @click="() => isPlayGame = !isPlayGame">Начать игру</Button>
 
-        <ul class="cards">
-          <li v-for="card in cardData" :key="card.word" class="cards__item">
-            <Card
-              v-bind="card"
-              @update:status="updateCardStatus"
-              @update:state="updateCardState"
-            />
-          </li>
-        </ul>
+        <div v-else>
+          <ul class="main__list">
+            <li v-for="card in cardData" :key="card.word" class="main__item">
+              <Card
+                v-bind="card"
+                @update:status="updateCardStatus"
+                @update:state="updateCardState"
+              />
+            </li>
+          </ul>
+
+          <Button class="main__button" @click="() => getRandomWords()">Начать заново</Button>
+        </div>
       </div>
     </div>
   </main>
@@ -80,6 +104,7 @@ onMounted(() => getRandomWords());
 .main {
   display: grid;
   height: 100%;
+  padding: 45px 0 65px;
 }
 
 .main__container {
@@ -89,6 +114,7 @@ onMounted(() => getRandomWords());
 
 .main__button {
   place-self: center;
+  margin: 0 auto;
 }
 
 .header {
@@ -109,17 +135,17 @@ onMounted(() => getRandomWords());
   color: var(--color-font-basic);
 }
 
-.cards {
+.main__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 66px 106px;
-  margin: 0;
+  margin: 0 0 100px;
   padding: 0;
   list-style: none;
   counter-reset: list-item;
 }
 
-.cards__item {
+.main__item {
   counter-increment: list-item;
   perspective: 1000px;
 }
