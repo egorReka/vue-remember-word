@@ -1,5 +1,33 @@
-# Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![](https://img.shields.io/badge/Vue.js-3.5-green?logo=vue.js&logoColor=white)
+![](https://img.shields.io/badge/JavaScript-ES6+-yellow?logo=javascript&logoColor=white)
+![](https://img.shields.io/badge/Vite-6.3-blueviolet?logo=vite&logoColor=white)
+![](https://img.shields.io/badge/ESLint-9.28-blue?logo=eslint&logoColor=white)
+![](https://img.shields.io/badge/Prettier-Config-lightgrey?logo=prettier&logoColor=white)
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+# Запомни слово
+
+Приложение для тренировки запоминания иностранных слов.
+Пользователю показываются карточки с английскими словами. Карточку можно перевернуть, чтобы увидеть перевод, а затем отметить, запомнил ли он слово или нет.
+Если слово запомнено — начисляется +10 очков. Если слово не запомнено — снимается –4 очка.
+
+![alt text](image.png)
+
+## Начало работы 
+
+1. Установите `node.js` (поддерживаемая версия: 22.18.0+)
+2. Установите зависимости с помощью:
+
+    ```shell
+    npm ci
+    ```
+3. Запустите локально translation-api, выбрав бинарник под вашу ОС и архитектуру:
+
+    ```shell
+    ./translation-api api-<os>-<arch>[.exe]
+    ```
+4. Запустите проект командой:
+
+    ```shell
+    npm run dev
+    ```
